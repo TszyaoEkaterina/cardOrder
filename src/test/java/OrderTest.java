@@ -42,6 +42,8 @@ public class OrderTest {
     @Test
     void shouldThrowErrorWithInvalidName() {
         driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Kate");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+71234567890");
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         driver.findElement(By.cssSelector("button")).click();
         String text = driver.findElement(By.cssSelector("[data-test-id=name] .input__inner .input__sub")).getText();
         assertEquals("Имя и Фамилия указаные неверно. Допустимы только русские буквы, пробелы и дефисы.", text.trim());
@@ -51,6 +53,7 @@ public class OrderTest {
     void shouldThrowErrorWithInvalidPhone() {
         driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Цзяо Екатерина");
         driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+7123456789000");
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         driver.findElement(By.cssSelector("button")).click();
         String text = driver.findElement(By.cssSelector("[data-test-id=phone] .input__inner .input__sub")).getText();
         assertEquals("Телефон указан неверно. Должно быть 11 цифр, например, +79012345678.", text.trim());
@@ -58,7 +61,8 @@ public class OrderTest {
     
     @Test
     void shouldNotSubmitWithoutName() {
-        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+7123456789000");
+        driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+71234567890");
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         driver.findElement(By.cssSelector("button")).click();
         String text = driver.findElement(By.cssSelector("[data-test-id=name] .input__inner .input__sub")).getText();
         assertEquals("Поле обязательно для заполнения", text.trim());
@@ -67,6 +71,7 @@ public class OrderTest {
     @Test
     void shouldNotSubmitWithoutPhone() {
         driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Цзяо Екатерина");
+        driver.findElement(By.cssSelector("[data-test-id=agreement]")).click();
         driver.findElement(By.cssSelector("button")).click();
         String text = driver.findElement(By.cssSelector("[data-test-id=phone] .input__inner .input__sub")).getText();
         assertEquals("Поле обязательно для заполнения", text.trim());
@@ -77,7 +82,7 @@ public class OrderTest {
         driver.findElement(By.cssSelector("[data-test-id=name] input")).sendKeys("Цзяо Екатерина");
         driver.findElement(By.cssSelector("[data-test-id=phone] input")).sendKeys("+71234567890");
         driver.findElement(By.cssSelector("button")).click();
-        String text = driver.findElement(By.cssSelector(".input_invalid")).getText();
+        String text = driver.findElement(By.cssSelector("[data-test-id=agreement].input_invalid .checkbox__text")).getText();
         assertEquals("Я соглашаюсь с условиями обработки и использования моих персональных данных и " +
                 "разрешаю сделать запрос в бюро кредитных историй", text.trim());
     }
